@@ -1,0 +1,117 @@
+<svg width="1280" height="900" viewBox="0 0 1280 900" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#475569"/></marker>
+    <marker id="ab" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2563eb"/></marker>
+    <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#059669"/></marker>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1.5" stdDeviation="2.5" flood-color="#0f172a" flood-opacity="0.13"/></filter>
+  </defs>
+
+  <rect width="1280" height="900" fill="#f8fafc"/>
+  <text x="44" y="50" font-size="25" font-weight="700" fill="#0f172a">AI Code Review Agent — System Architecture</text>
+  <text x="44" y="76" font-size="14.5" fill="#64748b">Follow (1)-(9) for one review cycle.  Blue = request flow,  green = response flow,  grey dashed = indexing (setup).</text>
+
+  <rect x="40" y="100" width="1200" height="130" rx="11" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5"/>
+  <text x="60" y="124" font-size="12.5" font-weight="700" fill="#4338ca" letter-spacing="1.5">(1) EXTERNAL — GITHUB</text>
+
+  <rect x="40" y="260" width="1200" height="330" rx="11" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+  <text x="60" y="284" font-size="12.5" font-weight="700" fill="#1d4ed8" letter-spacing="1.5">(2) SPRING BOOT SERVICE — Java 21</text>
+
+  <rect x="40" y="620" width="1200" height="230" rx="11" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1.5"/>
+  <text x="60" y="644" font-size="12.5" font-weight="700" fill="#15803d" letter-spacing="1.5">(3) AI + DATA</text>
+
+  <g filter="url(#sh)"><rect x="70" y="138" width="185" height="76" rx="9" fill="#fff" stroke="#818cf8" stroke-width="2"/></g>
+  <text x="162" y="170" font-size="14.5" font-weight="700" fill="#1e293b" text-anchor="middle">Developer</text>
+  <text x="162" y="191" font-size="11.5" fill="#64748b" text-anchor="middle">opens a Pull Request</text>
+
+  <g filter="url(#sh)"><rect x="548" y="138" width="185" height="76" rx="9" fill="#fff" stroke="#818cf8" stroke-width="2"/></g>
+  <text x="640" y="164" font-size="14.5" font-weight="700" fill="#1e293b" text-anchor="middle">GitHub</text>
+  <text x="640" y="184" font-size="11.5" fill="#64748b" text-anchor="middle">webhook delivery</text>
+  <text x="640" y="200" font-size="11.5" fill="#64748b" text-anchor="middle">+ REST API</text>
+
+  <g filter="url(#sh)"><rect x="1025" y="138" width="185" height="76" rx="9" fill="#fff" stroke="#818cf8" stroke-width="2"/></g>
+  <text x="1117" y="164" font-size="14.5" font-weight="700" fill="#1e293b" text-anchor="middle">Pull Request</text>
+  <text x="1117" y="184" font-size="11.5" fill="#64748b" text-anchor="middle">AI review posted</text>
+  <text x="1117" y="200" font-size="11.5" fill="#64748b" text-anchor="middle">as a comment</text>
+
+  <g filter="url(#sh)"><rect x="70" y="320" width="200" height="96" rx="9" fill="#fff" stroke="#60a5fa" stroke-width="2"/></g>
+  <text x="170" y="348" font-size="14" font-weight="700" fill="#1e293b" text-anchor="middle">Webhook Controller</text>
+  <text x="170" y="369" font-size="11" fill="#64748b" text-anchor="middle">verify HMAC signature</text>
+  <text x="170" y="385" font-size="11" fill="#64748b" text-anchor="middle">parse - store - route by</text>
+  <text x="170" y="401" font-size="11" fill="#64748b" text-anchor="middle">installation id - reply 200</text>
+
+  <g filter="url(#sh)"><rect x="340" y="320" width="200" height="96" rx="9" fill="#fff" stroke="#60a5fa" stroke-width="2"/></g>
+  <text x="440" y="352" font-size="14" font-weight="700" fill="#1e293b" text-anchor="middle">Async Runner</text>
+  <text x="440" y="373" font-size="11" fill="#64748b" text-anchor="middle">background thread pool;</text>
+  <text x="440" y="389" font-size="11" fill="#64748b" text-anchor="middle">drives the pipeline</text>
+
+  <g filter="url(#sh)"><rect x="610" y="320" width="200" height="96" rx="9" fill="#fff" stroke="#60a5fa" stroke-width="2"/></g>
+  <text x="710" y="348" font-size="14" font-weight="700" fill="#1e293b" text-anchor="middle">GitHub Services</text>
+  <text x="710" y="369" font-size="11" fill="#64748b" text-anchor="middle">App auth: JWT to token</text>
+  <text x="710" y="385" font-size="11" fill="#64748b" text-anchor="middle">fetch diff - post comment</text>
+  <text x="710" y="401" font-size="11" fill="#64748b" text-anchor="middle">(per-installation)</text>
+
+  <g filter="url(#sh)"><rect x="880" y="320" width="200" height="96" rx="9" fill="#fff" stroke="#60a5fa" stroke-width="2"/></g>
+  <text x="980" y="352" font-size="14" font-weight="700" fill="#1e293b" text-anchor="middle">Review Service</text>
+  <text x="980" y="373" font-size="11" fill="#64748b" text-anchor="middle">assembles prompt:</text>
+  <text x="980" y="389" font-size="11" fill="#64748b" text-anchor="middle">diff + RAG context</text>
+
+  <rect x="340" y="446" width="740" height="120" rx="9" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"/>
+  <text x="360" y="472" font-size="12.5" font-weight="700" fill="#b45309">CROSS-CUTTING CONCERNS</text>
+  <text x="360" y="497" font-size="12" fill="#92400e">- Resilience4j — retry + circuit breaker around every external call (OpenAI, GitHub)</text>
+  <text x="360" y="519" font-size="12" fill="#92400e">- Caching — installation-token cache (expiry-aware) + repo-index cache (@Cacheable)</text>
+  <text x="360" y="541" font-size="12" fill="#92400e">- Async execution + multi-tenant routing (one service serves any installed repo)</text>
+
+  <g filter="url(#sh)"><rect x="70" y="452" width="200" height="90" rx="9" fill="#fff" stroke="#60a5fa" stroke-width="2"/></g>
+  <text x="170" y="484" font-size="14" font-weight="700" fill="#1e293b" text-anchor="middle">Repo Indexer</text>
+  <text x="170" y="505" font-size="11" fill="#64748b" text-anchor="middle">reads repo files,</text>
+  <text x="170" y="521" font-size="11" fill="#64748b" text-anchor="middle">chunks + embeds them</text>
+
+  <g filter="url(#sh)"><rect x="610" y="672" width="200" height="96" rx="9" fill="#fff" stroke="#34d399" stroke-width="2"/></g>
+  <text x="710" y="704" font-size="14" font-weight="700" fill="#1e293b" text-anchor="middle">LLM - Spring AI</text>
+  <text x="710" y="725" font-size="11" fill="#64748b" text-anchor="middle">OpenAI now,</text>
+  <text x="710" y="741" font-size="11" fill="#64748b" text-anchor="middle">Bedrock/Claude in prod</text>
+  <text x="710" y="757" font-size="11" fill="#64748b" text-anchor="middle">returns the review text</text>
+
+  <g filter="url(#sh)"><rect x="880" y="672" width="200" height="96" rx="9" fill="#fff" stroke="#34d399" stroke-width="2"/></g>
+  <text x="980" y="704" font-size="14" font-weight="700" fill="#1e293b" text-anchor="middle">PostgreSQL</text>
+  <text x="980" y="725" font-size="11" fill="#64748b" text-anchor="middle">+ pgvector extension</text>
+  <text x="980" y="741" font-size="11" fill="#64748b" text-anchor="middle">events (relational)</text>
+  <text x="980" y="757" font-size="11" fill="#64748b" text-anchor="middle">+ embeddings (vectors)</text>
+
+  <line x1="255" y1="176" x2="548" y2="176" stroke="#475569" stroke-width="2" marker-end="url(#a)"/>
+  <circle cx="401" cy="176" r="13" fill="#4338ca"/><text x="401" y="181" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+
+  <path d="M588,214 C500,270 300,270 180,320" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#ab)"/>
+  <circle cx="360" cy="268" r="13" fill="#2563eb"/><text x="360" y="273" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+
+  <line x1="270" y1="368" x2="340" y2="368" stroke="#2563eb" stroke-width="2" marker-end="url(#ab)"/>
+  <circle cx="305" cy="368" r="13" fill="#2563eb"/><text x="305" y="373" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+
+  <line x1="540" y1="368" x2="610" y2="368" stroke="#2563eb" stroke-width="2" marker-end="url(#ab)"/>
+  <circle cx="575" cy="368" r="13" fill="#2563eb"/><text x="575" y="373" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+  <path d="M700,320 C690,275 660,240 645,214" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#ab)"/>
+  <text x="720" y="270" font-size="11" fill="#2563eb" font-style="italic">fetch PR diff</text>
+
+  <line x1="810" y1="368" x2="880" y2="368" stroke="#2563eb" stroke-width="2" marker-end="url(#ab)"/>
+  <circle cx="845" cy="368" r="13" fill="#2563eb"/><text x="845" y="373" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">5</text>
+
+  <path d="M1000,416 C1010,540 1000,610 980,672" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#ab)"/>
+  <circle cx="1012" cy="560" r="13" fill="#2563eb"/><text x="1012" y="565" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">6</text>
+  <text x="1025" y="620" font-size="11" fill="#2563eb" font-style="italic">retrieve context</text>
+
+  <path d="M930,416 C860,530 790,600 745,672" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#ab)"/>
+  <circle cx="838" cy="560" r="13" fill="#2563eb"/><text x="838" y="565" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">7</text>
+
+  <path d="M665,672 C620,560 640,470 655,416" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#ag)"/>
+  <circle cx="640" cy="560" r="13" fill="#059669"/><text x="640" y="565" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">8</text>
+  <text x="545" y="560" font-size="11" fill="#059669" font-style="italic">review text</text>
+
+  <path d="M810,344 C920,290 1000,240 1035,214" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#ag)"/>
+  <circle cx="930" cy="286" r="13" fill="#059669"/><text x="930" y="291" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">9</text>
+  <text x="835" y="315" font-size="11" fill="#059669" font-style="italic">post comment</text>
+
+  <path d="M270,500 C520,500 700,610 880,700" fill="none" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#a)"/>
+  <text x="360" y="560" font-size="11" fill="#64748b" font-style="italic">embed + store (setup / on demand)</text>
+  <path d="M270,470 C400,450 470,430 610,390" fill="none" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#a)"/>
+  <text x="300" y="440" font-size="11" fill="#64748b" font-style="italic">list + read repo files</text>
+</svg>

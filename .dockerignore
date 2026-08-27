@@ -1,0 +1,12 @@
+target/
+secrets/
+*.pem
+*.p8
+.git/
+.gitignore
+.idea/
+.vscode/
+*.iml
+.DS_Store
+HELP.md
+*.backup

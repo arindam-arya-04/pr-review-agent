@@ -1,0 +1,38 @@
+spring:
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: ${OPENAI_CHAT_MODEL:gpt-4o-mini}
+      embedding:
+        options:
+          model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        dimensions: 1536
+        index-type: hnsw
+  application:
+    name: pr-review-agent
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/pr_review_agent}
+    username: ${SPRING_DATASOURCE_USERNAME:dipkonaroy}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: ${JPA_SHOW_SQL:true}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+github:
+  webhook:
+    secret: ${GITHUB_WEBHOOK_SECRET:mysecret123}
+  app:
+    id: ${GITHUB_APP_ID:4507518}
+    installation-id: ${GITHUB_APP_INSTALLATION_ID:152282333}
+    private-key-path: ${GITHUB_PRIVATE_KEY_PATH:secrets/github-private-key-pkcs8.pem}
