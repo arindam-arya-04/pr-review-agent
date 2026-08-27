@@ -1,4 +1,4 @@
-# 🤖 AI Code Review Agent
+# ✨ AI Code Review Agent
 
 An autonomous GitHub App that reviews pull requests with an LLM — and, crucially, uses **retrieval-augmented generation (RAG)** over the repository to catch **cross-file defects** that diff-only review misses (a broken caller, a changed contract, a signature mismatch in a file the diff never shows).
 
@@ -8,7 +8,7 @@ Built in **Java 21 / Spring Boot 4** with **Spring AI**, **pgvector**, and a res
 
 ---
 
-## ✨ What it does
+##  What it does
 
 1. A developer opens a pull request on a repo where the app is installed.
 2. GitHub sends a webhook; the app verifies its authenticity (HMAC signature).
@@ -21,7 +21,7 @@ All the slow work runs **asynchronously** on a background thread pool, so the we
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ![Architecture](docs/architecture.svg)
 
@@ -45,11 +45,10 @@ This isn't just a product — it's backed by a controlled empirical study measur
 
 RAG caught **every** cross-file defect (McNemar p = 0.001, large effect size) — a statistically significant improvement — **but** at a measurable cost: a higher false-positive rate. The honest takeaway: **RAG's benefit is concentrated in cross-file defects and should be applied selectively, not universally.**
 
-*(Full methodology, statistics, and the reproducible evaluation harness are part of an in-progress research write-up.)*
 
 ---
 
-## 🛠️ Tech stack
+##  Tech stack
 
 - **Language / framework:** Java 21, Spring Boot 4.1
 - **AI:** Spring AI (OpenAI now; provider-swappable to AWS Bedrock)
@@ -62,7 +61,7 @@ RAG caught **every** cross-file defect (McNemar p = 0.001, large effect size) �
 
 ---
 
-## 🚀 Run it locally
+##  Run it locally
 
 The whole system runs in Docker — no manual Postgres or pgvector install needed.
 
@@ -101,7 +100,7 @@ All settings are environment-driven (12-factor). Key variables:
 
 ---
 
-## 🧠 Engineering highlights
+## Engineering highlights
 
 Some of the harder problems solved along the way (documented in depth in the project notes):
 
@@ -110,20 +109,6 @@ Some of the harder problems solved along the way (documented in depth in the pro
 - **RAG over code** — chunking + embedding repository files into pgvector, then similarity-searching the diff to surface the code most likely to break.
 - **Resilience** — retry with backoff and circuit breakers wrap every external call, so a transient OpenAI/GitHub blip doesn't fail a review.
 - **Reproducible-config design** — every secret and environment-specific value is injected at runtime; the built image contains zero secrets.
-
----
-
-## 📈 Status & roadmap
-
-- [x] Core review loop (webhook → auth → diff → AI → comment)
-- [x] RAG with pgvector
-- [x] Async, resilience, caching
-- [x] Multi-tenancy
-- [x] Dockerized
-- [x] Empirical RAG evaluation (significant cross-file result, validated judge)
-- [ ] Cloud deployment (AWS, live always-on URL)
-- [ ] Switch LLM to AWS Bedrock in production
-- [ ] CI/CD (GitHub Actions)
 
 ---
 
