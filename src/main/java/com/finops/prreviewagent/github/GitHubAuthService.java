@@ -1,11 +1,5 @@
 package com.finops.prreviewagent.github;
 
-import io.jsonwebtoken.Jwts;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.KeyFactory;
@@ -17,15 +11,14 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Authenticates as our GitHub App.
- *
- * Multi-tenant: the app can be installed on many accounts/repos, each with its
- * own installation id. We mint (and cache) a token PER installation id, so the
- * app can act on any repo it's installed on -- not just our own.
- *
- * Tokens are valid ~1 hour; we cache each one with its expiry and reuse it.
- */
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
+import io.jsonwebtoken.Jwts;
+
+
 @Service
 public class GitHubAuthService {
 
@@ -49,12 +42,12 @@ public class GitHubAuthService {
         this.privateKeyPath = privateKeyPath;
     }
 
-    /** Backwards-compatible: uses the default (our own) installation id. */
+   
     public String getInstallationToken() {
         return getInstallationToken(defaultInstallationId);
     }
 
-    /** Mint/reuse a token for a SPECIFIC installation id. */
+    
     public String getInstallationToken(String installationId) {
         Instant now = Instant.now();
         CachedToken cached = tokenCache.get(installationId);

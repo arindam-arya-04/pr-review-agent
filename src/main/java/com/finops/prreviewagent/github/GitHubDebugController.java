@@ -1,12 +1,5 @@
 package com.finops.prreviewagent.github;
 
-import io.jsonwebtoken.Jwts;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestClient;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.KeyFactory;
@@ -15,6 +8,14 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClient;
+
+import io.jsonwebtoken.Jwts;
 
 @RestController
 public class GitHubDebugController {
@@ -33,8 +34,7 @@ public class GitHubDebugController {
         this.privateKeyPath = privateKeyPath;
     }
 
-    // Shows the FULL response from GitHub when minting the installation token,
-    // including the token's permissions and repository selection.
+    
     @GetMapping("/debug-token")
     public String debugToken() {
         String jwt = createJwt();
@@ -47,7 +47,7 @@ public class GitHubDebugController {
                 .body(String.class);
     }
 
-    // Also verify the JWT itself works by asking GitHub who the app is.
+
     @GetMapping("/debug-app")
     public String debugApp() {
         String jwt = createJwt();

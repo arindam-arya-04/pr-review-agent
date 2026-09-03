@@ -1,26 +1,15 @@
 package com.finops.prreviewagent.config;
 
+import java.time.Duration;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-import java.time.Duration;
-
-/**
- * Defines reusable resilience policies for calls to external services
- * (OpenAI and GitHub), which can fail transiently.
- *
- * Retry: automatically re-attempts a failed call a few times with a growing
- *        delay between attempts (exponential backoff), so a brief blip doesn't
- *        fail the whole review.
- *
- * CircuitBreaker: if a service fails repeatedly, the breaker "opens" and calls
- *        fail fast for a while instead of piling on a service that's clearly
- *        down. It then tries again after a wait. This protects both us and them.
- */
 @Configuration
 public class ResilienceConfig {
 

@@ -1,23 +1,24 @@
 package com.finops.prreviewagent.api;
 
-import com.finops.prreviewagent.domain.PullRequestEvent;
-import com.finops.prreviewagent.repository.PullRequestEventRepository;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
-import java.util.List;
-import java.util.UUID;
+import com.finops.prreviewagent.domain.PullRequestEvent;
+import com.finops.prreviewagent.repository.PullRequestEventRepository;
 
-/**
- * REST endpoints for pull-request events.
- *
- * @RestController      = this class handles web requests and returns data (JSON).
- * @RequestMapping("/api/events") = every URL here starts with /api/events.
- */
+// 
+//   REST endpoints for pull-request events.
+ 
+//  @RestController      = this class handles web requests and returns data (JSON).
+//  @RequestMapping("/api/events") = every URL here starts with /api/events.
+//  
 @RestController
 @RequestMapping("/api/events")
 public class PullRequestEventController {
@@ -29,13 +30,13 @@ public class PullRequestEventController {
         this.repository = repository;
     }
 
-    // GET /api/events  ->  list everything we've stored
+    
     @GetMapping
     public List<PullRequestEvent> listAll() {
         return repository.findAll();
     }
 
-    // POST /api/events  ->  store a new event (manual test data for now)
+    
     @PostMapping
     public PullRequestEvent create(@RequestBody CreateEventRequest request) {
         PullRequestEvent event = new PullRequestEvent(
@@ -50,7 +51,6 @@ public class PullRequestEventController {
         return repository.save(event);
     }
 
-    // Describes the JSON body we accept on POST.
     public record CreateEventRequest(
             String repoFullName,
             int prNumber,

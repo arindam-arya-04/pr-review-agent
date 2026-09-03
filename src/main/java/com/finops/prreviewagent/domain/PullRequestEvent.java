@@ -1,18 +1,19 @@
 package com.finops.prreviewagent.domain;
 
+import java.time.Instant;
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.time.Instant;
-import java.util.UUID;
+// 
+//  One record per pull-request event we receive from GitHub.
+//  This is a JPA @Entity, so Hibernate maps it to a database table automatically.
+//   Each field below becomes a column in the "pull_request_events" table.
+//  
 
-/**
- * One record per pull-request event we receive from GitHub.
- * This is a JPA @Entity, so Hibernate maps it to a database table automatically.
- * Each field below becomes a column in the "pull_request_events" table.
- */
 @Entity
 @Table(name = "pull_request_events")
 public class PullRequestEvent {

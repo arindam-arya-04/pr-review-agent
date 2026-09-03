@@ -1,16 +1,17 @@
 package com.finops.prreviewagent.github;
 
-import com.finops.prreviewagent.rag.RepoIndexer;
-import com.finops.prreviewagent.review.CodeReviewService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.finops.prreviewagent.rag.RepoIndexer;
+import com.finops.prreviewagent.review.CodeReviewService;
+
 /**
- * TEMPORARY test endpoints. These use our OWN default installation id for
- * manual testing; the real flow gets the installation id from each webhook.
- */
+ * TEMPORARY test endpoints. 
+ **/
+
 @RestController
 public class GitHubAuthTestController {
 

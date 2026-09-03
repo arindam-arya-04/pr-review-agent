@@ -1,12 +1,7 @@
 package com.finops.prreviewagent.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finops.prreviewagent.domain.PullRequestEvent;
-import com.finops.prreviewagent.repository.PullRequestEventRepository;
-import com.finops.prreviewagent.review.AsyncReviewRunner;
-import com.finops.prreviewagent.webhook.PullRequestEventParser;
-import com.finops.prreviewagent.webhook.WebhookVerifier;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +10,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finops.prreviewagent.domain.PullRequestEvent;
+import com.finops.prreviewagent.repository.PullRequestEventRepository;
+import com.finops.prreviewagent.review.AsyncReviewRunner;
+import com.finops.prreviewagent.webhook.PullRequestEventParser;
+import com.finops.prreviewagent.webhook.WebhookVerifier;
 
 @RestController
 @RequestMapping("/webhook")
@@ -43,36 +44,35 @@ public class WebhookController {
             @RequestHeader(value = "X-Hub-Signature-256", required = false) String signature,
             @RequestBody String payload
     ) {
-        // 1. Verify authenticity.
+        //  Verify 
         if (!verifier.isValid(payload, signature)) {
             System.out.println(">>> REJECTED webhook: invalid signature");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid signature");
         }
 
-        // 2. Parse the event.
+        //  Parse  event.
         Optional<PullRequestEvent> parsed = parser.parse(eventType, payload);
         if (parsed.isEmpty()) {
             return ResponseEntity.ok("ignored");
         }
         PullRequestEvent event = parsed.get();
 
-        // 3. Store it.
+        //  Store it.
         repository.save(event);
 
-        // 4. Only auto-review on newly opened / reopened PRs.
+        //  Only auto-review on newly opened , reopened PRs.
         if (!"opened".equals(event.getAction()) && !"reopened".equals(event.getAction())) {
             return ResponseEntity.ok("stored");
         }
 
-        // 5. Extract the installation id from the payload, so we act as the
-        //    correct installation for THIS repo (multi-tenant).
+        
         String installationId = extractInstallationId(payload);
         if (installationId == null) {
             System.out.println(">>> No installation id in payload; cannot review PR #" + event.getPrNumber());
             return ResponseEntity.ok("no-installation");
         }
 
-        // 6. Kick off the review in the background and return immediately.
+        
         reviewRunner.runReview(event.getRepoFullName(), event.getPrNumber(), installationId);
         System.out.println(">>> Accepted PR #" + event.getPrNumber() + " for async review");
 

@@ -1,18 +1,16 @@
 package com.finops.prreviewagent.github;
 
-import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.github.resilience4j.retry.Retry;
+import java.nio.charset.StandardCharsets;
+import java.util.function.Supplier;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.nio.charset.StandardCharsets;
-import java.util.function.Supplier;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.retry.Retry;
 
-/**
- * Fetches a pull request's diff from GitHub, using the token for the specific
- * installation that owns the repo. Protected by retry + circuit breaker.
- */
+
 @Service
 public class GitHubDiffService {
 
