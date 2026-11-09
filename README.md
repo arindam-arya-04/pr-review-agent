@@ -71,9 +71,9 @@ The whole system runs in Docker — no manual Postgres or pgvector install neede
 - A registered GitHub App (for live PR reviews) with its private key
 
 ### 1. Configure secrets
-Create a `secrets/` directory and place your GitHub App private key (PKCS#8) inside:
+Create a `secrets/` directory and place your GitHub App private key inside:
 ```
-secrets/github-private-key-pkcs8.pem
+secrets/github-private-key-" ".pem
 ```
 Export your OpenAI key:
 ```bash
@@ -102,7 +102,7 @@ All settings are environment-driven (12-factor). Key variables:
 
 ## Engineering highlights
 
-Some of the harder problems solved along the way (documented in depth in the project notes):
+Some of the harder problems solved along the way :
 
 - **GitHub App two-hop auth** — signing a JWT with an RSA private key, exchanging it for a short-lived per-installation token, with expiry-aware caching.
 - **Multi-tenancy** — the webhook carries an installation id; the app mints and caches a token *per installation*, so one deployment serves any repo it's installed on.
